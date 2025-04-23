@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br" class="bg-gray-900 text-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Investimentos{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="/" class="text-2xl font-bold text-blue-400 hover:text-blue-300 transition">
+                Investimentos
+            </a>
+            <div class="space-x-4">
+                {% if user.is_authenticated %}
+                    <span class="text-sm text-gray-300">Olá, {{ user.username }}</span>
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-sm text-gray-300 hover:text-blue-400 transition">
+                            Sair
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-sm text-gray-300 hover:text-blue-400 transition">Login</a>
+                    <a href="{% url 'register' %}" class="text-sm text-gray-300 hover:text-blue-400 transition">Cadastro</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="flex-1 max-w-4xl w-full mx-auto p-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Rodapé opcional -->
+    <footer class="text-center text-sm text-gray-500 py-4 border-t border-gray-700">
+        &copy; {% now "Y" %} LogicAi Solutions - Todos os direitos reservados.
+    </footer>
+
+</body>
+</html>

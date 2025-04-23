@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold text-blue-400 mb-6">Minhas Operações</h2>
+<div class="overflow-x-auto">
+    <table class="w-full text-left border-separate border-spacing-0 border-gray-700">
+        <thead class="bg-gray-800 text-gray-300">
+            <tr>
+                <th class="p-4 rounded-tl-md">Data</th>
+                <th class="p-4">Tipo</th>
+                <th class="p-4">Ativo</th>
+                <th class="p-4">Quantidade</th>
+                <th class="p-4">Preço Unitário</th>
+                <th class="p-4 rounded-tr-md">Corretora</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-200">
+            {% for op in operations %}
+                <tr class="hover:bg-gray-800 transition">
+                    <td class="p-4 border-t border-gray-700">{{ op.date }}</td>
+                    <td class="p-4 border-t border-gray-700">{{ op.type }}</td>
+                    <td class="p-4 border-t border-gray-700">{{ op.asset.ticker }}</td>
+                    <td class="p-4 border-t border-gray-700">{{ op.quantity }}</td>
+                    <td class="p-4 border-t border-gray-700">R$ {{ op.unitary_price }}</td>
+                    <td class="p-4 border-t border-gray-700">{{ op.brokerage }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="p-4 text-center text-gray-400 border-t border-gray-700 rounded-b-md">Nenhuma operação registrada.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
