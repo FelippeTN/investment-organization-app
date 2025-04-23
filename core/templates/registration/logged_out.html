@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
-{% block content %}
-<div class="max-w-md mx-auto text-center">
-    <p class="text-gray-300">Você saiu. <a href="{% url 'login' %}" class="text-blue-400 hover:text-blue-300 transition">Entrar novamente</a></p>
-</div>
-{% endblock %}
+   {% block title %}Saiu{% endblock %}
+   {% block content %}
+   <div class="h-full flex items-center justify-center px-4 bg-gray-900 overflow-hidden">
+       <div class="max-w-md w-full bg-gray-800 p-8 rounded-lg shadow-sm border border-gray-700 text-center">
+           <p class="text-gray-200 mb-4">Você saiu da sua conta.</p>
+           <a href="{% url 'login' %}" class="text-emerald-400 hover:text-emerald-300 font-medium transition">Entrar novamente</a>
+       </div>
+   </div>
+   {% endblock %}

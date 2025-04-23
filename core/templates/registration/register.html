@@ -1,12 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Cadastro{% endblock %}
 {% block content %}
-<div class="max-w-md mx-auto">
-    <h2 class="text-2xl font-semibold text-blue-400 mb-6">Cadastre-se</h2>
-    <form method="post" class="space-y-4">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition">Cadastrar</button>
-    </form>
+<div class="h-full flex items-center justify-center px-4 bg-gray-900 overflow-hidden">
+    <div class="w-full max-w-4xl max-h-[500px] bg-gray-800 rounded-lg shadow-sm border border-gray-700 flex flex-col lg:flex-row overflow-hidden">
+        <!-- Register Form -->
+        <div class="w-full lg:w-1/2 p-6 flex flex-col justify-center overflow-y-auto">
+            <h2 class="text-2xl font-semibold text-emerald-400 text-center mb-4">Cadastre-se</h2>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">{{ field.label }}</label>
+                        <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.name }}"
+                               class="w-full px-3 py-1.5 border border-gray-600 rounded-md bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                               value="{{ field.value|default_if_none:'' }}">
+                        {% if field.errors %}
+                            <p class="text-sm text-red-400 mt-1">{{ field.errors|striptags }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-1.5 px-4 rounded-md transition">
+                    Cadastrar
+                </button>
+            </form>
+            <div class="text-center text-sm text-gray-400 mt-4">
+                <p>
+                    Já tem uma conta? <a href="{% url 'login' %}" class="text-amber-400 hover:underline">Fazer login</a>
+                </p>
+            </div>
+        </div>
+        <!-- Image Section -->
+        <div class="w-full lg:w-1/2 bg-blue-900 overflow-hidden">
+            <img src="{% static 'img/login_image.png' %}" alt="Register_image" class="w-full h-full object-cover">
+        </div>
+    </div>
 </div>
 {% endblock %}
