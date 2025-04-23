@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Cadastrar Ativo{% endblock %}
+{% block content %}
+<div class="h-full flex flex-col px-4 bg-gray-900">
+    <div class="max-w-4xl mx-auto p-6 flex-1">
+        <h1 class="text-3xl font-bold text-emerald-400 mb-4">Cadastrar Novo Ativo</h1>
+        <form method="post" class="bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-700">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label for="{{ form.name.id_for_label }}" class="block text-gray-300 mb-1">Nome</label>
+                    {{ form.name }}
+                </div>
+                <div>
+                    <label for="{{ form.type.id_for_label }}" class="block text-gray-300 mb-1">Tipo</label>
+                    {{ form.type }}
+                </div>
+                <div>
+                    <label for="{{ form.ticker.id_for_label }}" class="block text-gray-300 mb-1">Ticker</label>
+                    {{ form.ticker }}
+                </div>
+            </div>
+            <button type="submit" class="mt-4 bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600 transition">
+                Cadastrar
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
