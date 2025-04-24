@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 
 
 class Asset(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=50)  # Ação, FII, etc.
     ticker = models.CharField(max_length=10)
@@ -13,7 +12,7 @@ class Asset(models.Model):
 
 
 class Operation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # Added for explicit user link
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
     date = models.DateField()
     type = models.CharField(max_length=10, choices=[('compra', 'Compra'), ('venda', 'Venda')])

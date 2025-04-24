@@ -1,11 +1,5 @@
 from django import forms
-from .models import Asset, Operation
-
-
-class AssetForm(forms.ModelForm):
-    class Meta:
-        model = Asset
-        fields = ['name', 'type', 'ticker']
+from .models import Operation, Asset
 
 
 class OperationForm(forms.ModelForm):
@@ -17,7 +11,5 @@ class OperationForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        if user:
-            self.fields['asset'].queryset = Asset.objects.filter(user=user)
+        self.fields['asset'].queryset = Asset.objects.all()
