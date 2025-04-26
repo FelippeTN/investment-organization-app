@@ -1,39 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}Registrar Operação{% endblock %}
 {% block content %}
-<div class="h-full flex flex-col px-4 bg-gray-900">
-    <div class="max-w-4xl mx-auto p-6 flex-1">
-        <h1 class="text-3xl font-bold text-emerald-400 mb-4">Registrar Nova Operação</h1>
-        <form method="post" class="bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-700">
+<div class="max-w-2xl mx-auto p-6">
+    <div class="bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-700 fade-in">
+        <h1 class="text-3xl font-bold text-emerald-400 mb-6">Registrar Nova Operação</h1>
+        <form method="post" class="space-y-6">
             {% csrf_token %}
-            <div class="grid grid-cols-1 gap-4">
-                <div>
-                    <label for="{{ form.asset.id_for_label }}" class="block text-gray-300 mb-1">Ativo</label>
-                    {{ form.asset }}
-                </div>
-                <div>
-                    <label for="{{ form.date.id_for_label }}" class="block text-gray-300 mb-1">Data</label>
-                    {{ form.date }}
-                </div>
-                <div>
-                    <label for="{{ form.type.id_for_label }}" class="block text-gray-300 mb-1">Tipo</label>
-                    {{ form.type }}
-                </div>
-                <div>
-                    <label for="{{ form.quantity.id_for_label }}" class="block text-gray-300 mb-1">Quantidade</label>
-                    {{ form.quantity }}
-                </div>
-                <div>
-                    <label for="{{ form.unitary_price.id_for_label }}" class="block text-gray-300 mb-1">Preço Unitário (R$)</label>
-                    {{ form.unitary_price }}
-                </div>
-                <div>
-                    <label for="{{ form.brokerage.id_for_label }}" class="block text-gray-300 mb-1">Corretora</label>
-                    {{ form.brokerage }}
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="text-red-400 text-sm mt-1">{{ field.errors.as_text }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
-            <button type="submit" class="mt-4 bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600 transition">
-                Registrar
+            <button type="submit" class="w-full bg-emerald-500 text-white px-6 py-3 rounded-lg hover:bg-emerald-600 transition focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                Registrar Operação
             </button>
         </form>
     </div>
