@@ -1,5 +1,59 @@
 {% extends 'base.html' %}
 {% block title %}Minhas Operações{% endblock %}
+
+{% block sidebar %}
+    <!-- Sidebar (shown only on dashboard) -->
+    <aside id="sidebar" class="w-64 bg-gray-800 border-r border-gray-700 hidden lg:block">
+        <div class="p-6">
+            <a href="/" class="text-2xl font-bold text-emerald-400">Investimentos</a>
+        </div>
+        <nav class="mt-6">
+            <a href="{% url 'dashboard' %}" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-emerald-400 transition">Minhas Operações</a>
+            <a href="{% url 'operation_create' %}" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-emerald-400 transition">Nova Operação</a>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post" class="px-6 py-3">
+                    {% csrf_token %}
+                    <button type="submit" class="text-gray-300 hover:text-emerald-400 transition">Sair</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-emerald-400 transition">Login</a>
+            <a href="{% url 'register' %}" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-emerald-400 transition">Cadastro</a>
+            {% endif %}
+        </nav>
+    </aside>
+{% endblock %}
+
+{% block topbar %}
+    <!-- Topbar (shown only on dashboard) -->
+    <header class="bg-gray-800 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button id="toggle-sidebar" class="text-gray-300 hover:text-emerald-400 transition">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <a href="/" class="text-xl font-semibold text-emerald-400">Investimentos</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                {% if user.is_authenticated %}
+                    <span class="text-sm text-gray-300">Olá, {{ user.username }}</span>
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-sm text-gray-300 hover:text-emerald-400 transition">Sair</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-sm text-gray-300 hover:text-emerald-400 transition">Login</a>
+                    <a href="{% url 'register' %}" class="text-sm text-gray-300 hover:text-emerald-400 transition">Cadastro</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
 {% block content %}
 <div class="max-w-7xl mx-auto space-y-8">
     <!-- Portfolio Summary -->
@@ -26,7 +80,7 @@
             <table class="w-full text-left">
                 <thead class="bg-gray-700 text-gray-300">
                     <tr>
-                        <KTML_TH class="p-4 rounded-tl-lg">Ativo</KTML_TH>
+                        <th class="p-4 rounded-tl-lg">Ativo</th>
                         <th class="p-4">Quantidade Total</th>
                         <th class="p-4 rounded-tr-lg">Valor Total (R$)</th>
                     </tr>
