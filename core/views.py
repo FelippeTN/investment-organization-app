@@ -27,6 +27,8 @@ def dashboard(request):
     
     # Compute portfolio: aggregate quantity and total value per asset for the user
     portfolio = {}
+    portfolio_total = 0
+    
     for asset in assets:
         # Calculate net quantity (compras - vendas) for the user
         qty = Operation.objects.filter(asset=asset, user=request.user).aggregate(
@@ -48,10 +50,12 @@ def dashboard(request):
                 'quantity': qty,
                 'total_value': total_value
             }
+            portfolio_total += total_value
     
     return render(request, 'dashboard.html', {
         'operations': operations,
         'portfolio': portfolio,
+        'portfolio_total': portfolio_total,
         'assets': assets
     })
 
