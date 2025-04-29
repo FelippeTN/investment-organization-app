@@ -1,26 +1,4 @@
 {% extends 'base.html' %}
-{% block topbar %}
-    <header class="bg-gray-800 border-b border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <a href="/" class="text-xl font-semibold text-emerald-400">LogicAi Solutions</a>
-            </div>
-            <div class="flex items-center space-x-4">
-                {% if user.is_authenticated %}
-                    <span class="text-sm text-gray-300">Olá, {{ user.username }}</span>
-                    <form action="{% url 'logout' %}" method="post" class="inline">
-                        {% csrf_token %}
-                        <button type="submit" class="text-sm text-gray-300 hover:text-emerald-400 transition">Sair</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}" class="text-sm text-gray-300 hover:text-emerald-400 transition">Login</a>
-                    <a href="{% url 'register' %}" class="text-sm text-gray-300 hover:text-emerald-400 transition">Cadastro</a>
-                {% endif %}
-            </div>
-        </div>
-    </header>
-{% endblock %}
-
 {% block title %}Registrar Operação{% endblock %}
 {% block content %}
 <div class="max-w-3xl mx-auto p-6">
