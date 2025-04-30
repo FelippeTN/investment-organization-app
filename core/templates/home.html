@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %}Home - LogicAi Solutions{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto space-y-12">
+    <!-- Hero Section with Search Bar -->
+    <section class="text-center py-16 bg-gray-800 rounded-xl shadow-lg border border-gray-700 hero-bg">
+        <h1 class="text-3xl lg:text-4xl font-bold text-emerald-400 mb-6">
+            Pesquise pelo ativo desejado para ter acesso a cotação, fundamentos e gráficos
+        </h1>
+        <div class="max-w-3xl mx-auto mb-6">
+            <div class="flex items-center bg-white rounded-lg shadow-md p-2">
+                <input type="text" placeholder="Pesquise pelo ativo desejado" class="w-full p-3 text-gray-800 rounded-lg focus:outline-none">
+                <button class="bg-emerald-500 text-white px-6 py-3 rounded-lg hover:bg-emerald-600 transition font-semibold">
+                    Pesquisar
+                </button>
+            </div>
+        </div>
+        <div class="flex justify-center space-x-3 text-gray-300 text-sm">
+            <span class="font-semibold">Mais buscados:</span>
+            <a href="#" class="hover:text-emerald-400">Itausa</a>
+            <a href="#" class="hover:text-emerald-400">TAESA</a>
+            <a href="#" class="hover:text-emerald-400">Tesla</a>
+            <a href="#" class="hover:text-emerald-400">Apple</a>
+            <a href="#" class="hover:text-emerald-400">Bitcoin</a>
+            <a href="#" class="hover:text-emerald-400">Pesquisa Avançada</a>
+        </div>
+    </section>
+
+    <!-- Rankings Section -->
+    <section class="space-y-8">
+        <h2 class="text-2xl font-bold text-emerald-400">Rankings de Ações</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Maiores Valor de Mercado -->
+            <div class="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-200 mb-4">Maiores Valor de Mercado</h3>
+                <ul class="space-y-3 text-gray-200">
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>PETR4 - PETROBRAS</span>
+                        </div>
+                        <span>R$ 408,16 B</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>ITUB4 - ITAÚ UNIBANCO</span>
+                        </div>
+                        <span>R$ 356,04 B</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>VALE3 - VALE</span>
+                        </div>
+                        <span>R$ 245,11 B</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>ABEV3 - AMBEV</span>
+                        </div>
+                        <span>R$ 229,49 B</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>WEGE3 - WEG</span>
+                        </div>
+                        <span>R$ 211,96 B</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Maiores Dividend Yield -->
+            <div class="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-200 mb-4">Maiores Dividend Yield</h3>
+                <ul class="space-y-3 text-gray-200">
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>SYNE3 - MELK</span>
+                        </div>
+                        <span>48,46%</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>MELK3</span>
+                        </div>
+                        <span>33,66%</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>PATI3 - PANATLANTICA</span>
+                        </div>
+                        <span>24,77%</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>PETR4 - PETROBRAS</span>
+                        </div>
+                        <span>24,29%</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>RECV3 - PETRORECONCAVO</span>
+                        </div>
+                        <span>20,50%</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Maiores Receitas -->
+            <div class="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-200 mb-4">Maiores Receitas</h3>
+                <ul class="space-y-3 text-gray-200">
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>PETR4 - PETROBRAS</span>
+                        </div>
+                        <span>R$ 490,83 B</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>JBSS3</span>
+                        </div>
+                        <span>R$ 416,95 B</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>ITUB4 - ITAÚ UNIBANCO</span>
+                        </div>
+                        <span>R$ 335,33 B</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>BBAS3 - BANCO DO BRASIL</span>
+                        </div>
+                        <span>R$ 273,51 B</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span>BBDC3 - BANCO BRADESCO</span>
+                        </div>
+                        <span>R$ 214,38 B</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

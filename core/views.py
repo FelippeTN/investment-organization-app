@@ -16,6 +16,12 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
+def welcome_page(request):
+    return render(request, 'welcome.html')
+
+@login_required
+def home_page(request):
+    return render(request, 'home.html')
 
 @login_required
 def dashboard(request):
