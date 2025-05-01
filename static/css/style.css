@@ -2,6 +2,13 @@ body {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
 }
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; 
+    background-color: #111827; 
+}
 
 ::-webkit-scrollbar {
     width: 6px;
@@ -23,6 +30,7 @@ body {
 input[type="text"],
 input[type="number"],
 input[type="date"],
+input[type="password"],
 select {
     width: 100%;
     padding: 0.5rem;
@@ -37,6 +45,7 @@ select {
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="date"]:focus,
+input[type="password"]:focus,
 select:focus {
     outline: none;
     border-color: #60a5fa;
