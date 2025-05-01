@@ -1,25 +1,48 @@
 body {
     font-family: 'Inter', sans-serif;
+    font-weight: 400;
 }
+
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
+
 ::-webkit-scrollbar-track {
-    background: #1f2937;
+    background: #111827;
 }
+
 ::-webkit-scrollbar-thumb {
-    background: #4b5563;
-    border-radius: 4px;
+    background: #374151;
+    border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: #60a5fa;
 }
 
-.fade-in {
-    animation: fadeIn 0.3s ease-in;
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #374151;
+    border-radius: 0.25rem;
+    background-color: #1f2937;
+    color: #e5e7eb;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus {
+    outline: none;
+    border-color: #60a5fa;
+}
+
+canvas#portfolioChart {
+    max-height: 100%;
+    width: 100%;
 }

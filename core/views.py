@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from .models import Operation, Asset
 from .forms import OperationForm
 from django.db.models import Sum, F, Case, When, Value, IntegerField, DecimalField
+from django.urls import reverse
 
 
 def register(request):
@@ -17,6 +18,8 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def welcome_page(request):
+    if request.user.is_authenticated:
+        return redirect(reverse(home_page))
     return render(request, 'welcome.html')
 
 @login_required

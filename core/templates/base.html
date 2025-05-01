@@ -1,49 +1,47 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="pt-br" class="bg-gray-900">
+<html lang="pt-br" class="bg-gray-950">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Investimentos{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'js/scripts.js' %}" defer></script>
 </head>
-<body class="min-h-screen flex bg-gray-900 text-gray-200 antialiased">
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
-        <!-- Topbar -->
-        {% block topbar %}
-            <header class="bg-gray-800 border-b border-gray-700">
-                <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                    <div class="flex items-center space-x-4">
-                        <a href="/" class="text-xl font-semibold text-emerald-400">LogicAi Solutions</a>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'dashboard' %}" class="text-sm text-gray-300 hover:text-emerald-400 transition">Minhas Operações</a>
-                            <span class="text-sm text-gray-300">Olá, {{ user.username }}</span>
-                            <form action="{% url 'logout' %}" method="post" class="inline">
-                                {% csrf_token %}
-                                <button type="submit" class="text-sm text-gray-300 hover:text-emerald-400 transition">Sair</button>
-                            </form>
-                        {% else %}
-                            <a href="{% url 'login' %}" class="text-sm text-gray-300 hover:text-emerald-400 transition">Login</a>
-                            <a href="{% url 'register' %}" class="text-sm text-gray-300 hover:text-emerald-400 transition">Cadastro</a>
-                        {% endif %}
-                    </div>
+<body class="min-h-screen flex flex-col bg-gray-950 text-gray-200 font-inter">
+    <!-- Topbar -->
+    {% block topbar %}
+        <header class="bg-gray-900 border-b border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                <a href="/" class="text-lg font-medium text-blue-400">LogicAi Solutions</a>
+                <div class="flex items-center space-x-6 text-sm">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="text-gray-400 hover:text-blue-400 transition">Dashboard</a>
+                        <span class="text-gray-400">{{ user.username }}</span>
+                        <form action="{% url 'logout' %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="text-gray-400 hover:text-blue-400 transition">Sair</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-gray-400 hover:text-blue-400 transition">Login</a>
+                        <a href="{% url 'register' %}" class="text-gray-400 hover:text-blue-400 transition">Cadastro</a>
+                    {% endif %}
                 </div>
-            </header>
-        {% endblock %}
+            </div>
+        </header>
+    {% endblock %}
 
-        <main class="flex-1 overflow-y-auto p-4 lg:p-8 fade-in">
-            {% block content %}{% endblock %}
-        </main>
-        <footer class="text-center text-sm text-gray-400 py-3">
-            © {% now "Y" %} LogicAi Solutions - Todos os direitos reservados.
-        </footer>
-    </div>
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-sm text-gray-500 py-4">
+        © {% now "Y" %} LogicAi Solutions
+    </footer>
 </body>
 </html>
