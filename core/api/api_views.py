@@ -6,12 +6,15 @@ from rest_framework.permissions import IsAuthenticated
 from ..models import Asset
 from ..serializers import AssetSerializer
 from bs4 import BeautifulSoup
-import requests, time
+import requests, time, os
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-BRAPI_TOKEN = "REMOVIDO"  # Substitua pelo seu token
+BRAPI_TOKEN = os.getenv("BRAPI_TOKEN")
 BRAPI_BASE_URL = "https://brapi.dev/api"
 SLEEP_TIME = 1.0
 MAX_RETRIES = 3
