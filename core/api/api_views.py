@@ -232,3 +232,87 @@ class AssetTickerCreateView(APIView):
         }
         status_code = status.HTTP_200_OK if not errors else status.HTTP_207_MULTI_STATUS
         return Response(response_data, status=status_code)
+
+class AssetSectorUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        assets = Asset.objects.all()
+        updated_assets = []
+        errors = []
+
+        if not assets:
+            return Response(
+                {'updated': [], 'errors': ['Nenhum ativo encontrado']},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        retry_count = 0
+        while retry_count < MAX_RETRIES:
+            try:
+                url = f"{BRAPI_BASE_URL}/quote/list?token={BRAPI_TOKEN}"
+                response = requests.get(url)
+                response.raise_for_status()
+                data = response.json()
+
+                tickers_data = data.get('stocks', [])
+                if not tickers_data:
+                    raise Exception("Nenhum dado de ticker encontrado na resposta da API")
+
+                break
+            except requests.exceptions.HTTPError as e:
+                if response.status_code == 429:
+                    retry_count += 1
+                    if retry_count == MAX_RETRIES:
+                        errors.append("Limite de requisições atingido ao obter lista de tickers")
+                        logger.error("Limite de requisições atingido ao obter lista de tickers")
+                        break
+                    wait_time = RETRY_WAIT * (2 ** (retry_count - 1))
+                    logger.warning(f"Too Many Requests. Tentativa {retry_count}/{MAX_RETRIES}. Esperando {wait_time}s...")
+                    time.sleep(wait_time)
+                else:
+                    errors.append(f"Erro ao obter lista de tickers: {str(e)}")
+                    logger.error(f"Erro ao obter lista de tickers: {str(e)}")
+                    break
+            except Exception as e:
+                errors.append(f"Erro ao obter lista de tickers: {str(e)}")
+                logger.error(f"Erro ao obter lista de tickers: {str(e)}")
+                break
+
+        if not tickers_data:
+            return Response(
+                {'updated': [], 'errors': errors},
+                status=status.HTTP_207_MULTI_STATUS
+            )
+
+        for ticker_data in tickers_data:
+            ticker = ticker_data.get('stock')
+            sector = ticker_data.get('sector')
+            ticker_yf = f"{ticker}.SA" if not ticker.endswith('.SA') else ticker
+
+            try:
+                asset = Asset.objects.filter(ticker=ticker_yf).first()
+                if asset:
+                    if sector:
+                        asset.sector = sector
+                        asset.save()
+                        updated_assets.append(asset)
+                    else:
+                        errors.append(f"Setor não disponível para {ticker_yf}")
+                        logger.warning(f"Setor não disponível para {ticker_yf}")
+                else:
+                    errors.append(f"Ativo {ticker_yf} não encontrado no banco de dados")
+                    logger.warning(f"Ativo {ticker_yf} não encontrado no banco de dados")
+                
+                time.sleep(SLEEP_TIME)
+            except Exception as e:
+                errors.append(f"Erro ao atualizar setor para {ticker_yf}: {str(e)}")
+                logger.error(f"Erro ao atualizar setor para {ticker_yf}: {str(e)}")
+
+        serializer = AssetSerializer(updated_assets, many=True)
+        response_data = {
+            'updated': serializer.data,
+            'errors': errors
+        }
+        status_code = status.HTTP_200_OK if not errors else status.HTTP_207_MULTI_STATUS
+        return Response(response_data, status=status_code)
