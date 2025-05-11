@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 {% block title %}Registrar Operação{% endblock %}
 {% block content %}
-<div class="max-w-md mx-auto p-6">
-    <div class="bg-gray-900 p-6">
-        <h1 class="text-xl font-medium text-blue-400 mb-4">Nova Operação</h1>
-        <form method="post" novalidate class="space-y-4">
+<div class="max-w-lg mx-auto p-6">
+    <div class="bg-white p-8 rounded-lg shadow-sm">
+        <h1 class="text-2xl font-semibold text-blue-900 mb-6">Nova Operação</h1>
+        <form method="post" novalidate class="space-y-6">
             {% csrf_token %}
-            <div class="space-y-4">
+            <div class="space-y-6">
                 {% for field in form %}
                     <div>
-                        <label for="{{ field.id_for_label }}" class="block text-sm text-gray-400 mb-1">{{ field.label }}</label>
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-600 mb-2">{{ field.label }}</label>
                         {{ field }}
                         {% if field.errors %}
-                            <span class="text-sm text-red-400 mt-1">{{ field.errors.as_text }}</span>
+                            <span class="text-sm text-red-600 mt-2">{{ field.errors.as_text }}</span>
                         {% endif %}
                     </div>
                 {% endfor %}
             </div>
-            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition">Registrar</button>
+            <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition">Registrar</button>
         </form>
     </div>
 </div>

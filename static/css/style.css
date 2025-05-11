@@ -1,45 +1,52 @@
+/* style.css */
 body {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #1F2937;
+    background-color: #F9FAFB;
 }
+
 html, body {
     height: 100vh;
     margin: 0;
     padding: 0;
-    overflow: hidden; 
-    background-color: #111827; 
+    overflow-x: hidden;
 }
 
+/* Scrollbar */
 ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #111827;
+    background: #F9FAFB;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #374151;
-    border-radius: 3px;
+    background: #6B7280;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #60a5fa;
+    background: #3B82F6;
 }
 
+/* Forms */
 input[type="text"],
 input[type="number"],
 input[type="date"],
 input[type="password"],
 select {
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #374151;
-    border-radius: 0.25rem;
-    background-color: #1f2937;
-    color: #e5e7eb;
+    padding: 0.75rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 0.375rem;
+    background-color: #FFFFFF;
+    color: #1F2937;
     font-size: 0.875rem;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input[type="text"]:focus,
@@ -48,10 +55,95 @@ input[type="date"]:focus,
 input[type="password"]:focus,
 select:focus {
     outline: none;
-    border-color: #60a5fa;
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-canvas#portfolioChart {
+/* Buttons */
+button,
+a.bg-blue-600 {
+    background: linear-gradient(to right, #3B82F6, #1E3A8A);
+    color: #FFFFFF;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover,
+a.bg-blue-600:hover {
+    background: linear-gradient(to right, #2563EB, #1E3A8A);
+    transform: translateY(-1px);
+}
+
+/* Cards */
+.bg-gray-900 {
+    background-color: #111827;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.bg-white {
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Tables */
+table {
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #111827;
+    color: #D1D5DB;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F9FAFB;
+}
+
+tbody tr:hover {
+    background-color: #E5E7EB;
+}
+
+/* Canvas for Charts */
+canvas#portfolioChart,
+canvas#sectorChart {
     max-height: 100%;
     width: 100%;
+}
+
+/* Header */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Animations */
+main {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Links */
+a.text-blue-600 {
+    color: #3B82F6;
+}
+
+a.text-blue-600:hover {
+    color: #2563EB;
+    text-decoration: underline;
 }

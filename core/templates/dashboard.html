@@ -1,46 +1,46 @@
 {% extends 'base.html' %}
 {% block title %}Minhas Operações{% endblock %}
 {% block content %}
-<div class="max-w-7xl mx-auto space-y-6">
+<div class="max-w-7xl mx-auto space-y-8">
     <!-- Portfolio Summary -->
-    <div class="bg-gray-900 p-4">
-        <h1 class="text-xl font-medium text-blue-400 mb-4">Sua Carteira</h1>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div class="bg-gray-800 p-3">
-                <p class="text-gray-400 text-sm">Valor Total</p>
-                <p class="text-lg font-medium text-gray-200">R$ {{ portfolio_total|floatformat:2 }}</p>
+    <div class="bg-white p-6 rounded-lg shadow-sm animate-fade-in">
+        <h1 class="text-2xl font-semibold text-blue-900 mb-6">Sua Carteira</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+            <div class="bg-gray-50 p-4 rounded-md">
+                <p class="text-gray-600 text-sm font-medium">Valor Total</p>
+                <p class="text-xl font-semibold text-gray-900">R$ {{ portfolio_total|floatformat:2 }}</p>
             </div>
-            <div class="bg-gray-800 p-3">
-                <p class="text-gray-400 text-sm">Ativos</p>
-                <p class="text-lg font-medium text-gray-200">{{ portfolio|length }}</p>
+            <div class="bg-gray-50 p-4 rounded-md">
+                <p class="text-gray-600 text-sm font-medium">Ativos</p>
+                <p class="text-xl font-semibold text-gray-900">{{ portfolio|length }}</p>
             </div>
-            <div class="bg-gray-800 p-3">
-                <p class="text-gray-400 text-sm">Operações</p>
-                <p class="text-lg font-medium text-gray-200">{{ operations|length }}</p>
+            <div class="bg-gray-50 p-4 rounded-md">
+                <p class="text-gray-600 text-sm font-medium">Operações</p>
+                <p class="text-xl font-semibold text-gray-900">{{ operations|length }}</p>
             </div>
         </div>
 
         <!-- Portfolio Composition -->
-        <h2 class="text-lg font-medium text-blue-400 mb-3">Composição da Carteira</h2>
+        <h2 class="text-xl font-semibold text-blue-900 mb-4">Composição da Carteira</h2>
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm">
-                <thead class="bg-gray-800 text-gray-400">
+            <table class="w-full text-left text-sm animate-fade-in">
+                <thead class="bg-gray-100 text-gray-600">
                     <tr>
-                        <th class="p-3">Ativo</th>
-                        <th class="p-3">Quantidade</th>
-                        <th class="p-3">Valor Total (R$)</th>
+                        <th class="p-4">Ativo</th>
+                        <th class="p-4">Quantidade</th>
+                        <th class="p-4">Valor Total (R$)</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-200">
+                <tbody class="text-gray-900">
                     {% for asset, data in portfolio.items %}
-                        <tr class="hover:bg-gray-800">
-                            <td class="p-3">{{ asset }}</td>
-                            <td class="p-3">{{ data.quantity }}</td>
-                            <td class="p-3">R$ {{ data.total_value|floatformat:2 }}</td>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="p-4">{{ asset }}</td>
+                            <td class="p-4">{{ data.quantity }}</td>
+                            <td class="p-4">R$ {{ data.total_value|floatformat:2 }}</td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="3" class="p-3 text-center text-gray-400">Nenhum ativo na carteira.</td>
+                            <td colspan="3" class="p-4 text-center text-gray-600">Nenhum ativo na carteira.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -49,72 +49,84 @@
     </div>
 
     <!-- Assets and Operations -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Portfolio Composition Chart -->
-        <div class="bg-gray-900 p-4">
-            <h2 class="text-lg font-medium text-blue-400 mb-3">Composição da Carteira</h2>
+        <div class="bg-white p-6 rounded-lg shadow-sm animate-fade-in">
+            <h2 class="text-xl font-semibold text-blue-900 mb-4">Composição da Carteira</h2>
             {% if operations %}
-                <div class="h-64">
+                <div class="relative h-96 border border-gray-200 rounded-md">
                     <canvas id="portfolioChart" 
-                    data-operations='[
-                        {% for op in operations %}
-                            {
-                                "ticker": "{{ op.asset.ticker|escapejs }}",
-                                "quantity": {{ op.quantity }},
-                                "unitary_price": "{{ op.unitary_price|floatformat:2 }}",
-                                "type": "{{ op.type|escapejs }}"
-                            }{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    ]'></canvas>
+                            data-operations='[
+                                {% for op in operations %}
+                                    {
+                                        "ticker": "{{ op.asset.ticker|escapejs }}",
+                                        "quantity": {{ op.quantity }},
+                                        "unitary_price": "{{ op.unitary_price|floatformat:2 }}",
+                                        "type": "{{ op.type|escapejs }}"
+                                    }{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            ]'></canvas>
+                    <div class="absolute inset-0 flex items-center justify-center hidden chart-loading">
+                        <svg class="w-8 h-8 text-blue-600 animate-spin" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
                 </div>
             {% else %}
-                <p class="text-gray-400 text-center">Nenhuma operação registrada.</p>
+                <p class="text-gray-600 text-center py-8">Nenhuma operação registrada.</p>
             {% endif %}
         </div>
 
         <!-- Sector Composition Chart -->
-        <div class="bg-gray-900 p-4">
-            <h2 class="text-lg font-medium text-blue-400 mb-3">Distribuição por Setor</h2>
+        <div class="bg-white p-6 rounded-lg shadow-sm animate-fade-in">
+            <h2 class="text-xl font-semibold text-blue-900 mb-4">Distribuição por Setor</h2>
             {% if sector_totals %}
-                <div class="h-64">
+                <div class="relative h-96 border border-gray-200 rounded-md">
                     <canvas id="sectorChart" data-sectors='{{ sector_totals_json|safe }}'></canvas>
+                    <div class="absolute inset-0 flex items-center justify-center hidden chart-loading">
+                        <svg class="w-8 h-8 text-blue-600 animate-spin" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
                 </div>
             {% else %}
-                <p class="text-gray-400 text-center">Nenhuma informação de setor disponível.</p>
+                <p class="text-gray-600 text-center py-8">Nenhuma informação de setor disponível.</p>
             {% endif %}
         </div>
 
         <!-- Operations -->
-        <div class="bg-gray-900 p-4">
-            <div class="flex justify-between items-center mb-3">
-                <h2 class="text-lg font-medium text-blue-400">Minhas Operações</h2>
-                <a href="{% url 'operation_create' %}" class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">Nova Operação</a>
+        <div class="bg-white p-6 rounded-lg shadow-sm lg:col-span-2 animate-fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-blue-900">Minhas Operações</h2>
+                <a href="{% url 'operation_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Nova Operação</a>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-gray-800 text-gray-400">
+                <table class="w-full text-left text-sm animate-fade-in">
+                    <thead                    <thead class="bg-gray-100 text-gray-600">
                         <tr>
-                            <th class="p-3">Data</th>
-                            <th class="p-3">Tipo</th>
-                            <th class="p-3">Ativo</th>
-                            <th class="p-3">Quantidade</th>
-                            <th class="p-3">Preço</th>
-                            <th class="p-3">Corretora</th>
+                            <th class="p-4">Data</th>
+                            <th class="p-4">Tipo</th>
+                            <th class="p-4">Ativo</th>
+                            <th class="p-4">Quantidade</th>
+                            <th class="p-4">Preço</th>
+                            <th class="p-4">Corretora</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-200">
+                    <tbody class="text-gray-900">
                         {% for op in operations %}
-                            <tr class="hover:bg-gray-800">
-                                <td class="p-3">{{ op.date }}</td>
-                                <td class="p-3">{{ op.type }}</td>
-                                <td class="p-3">{{ op.asset.ticker }}</td>
-                                <td class="p-3">{{ op.quantity }}</td>
-                                <td class="p-3">R$ {{ op.unitary_price|floatformat:2 }}</td>
-                                <td class="p-3">{{ op.brokerage }}</td>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="p-4">{{ op.date }}</td>
+                                <td class="p-4">{{ op.type }}</td>
+                                <td class="p-4">{{ op.asset.ticker }}</td>
+                                <td class="p-4">{{ op.quantity }}</td>
+                                <td class="p-4">R$ {{ op.unitary_price|floatformat:2 }}</td>
+                                <td class="p-4">{{ op.brokerage }}</td>
                             </tr>
                         {% empty %}
                             <tr>
-                                <td colspan="6" class="p-3 text-center text-gray-400">Nenhuma operação registrada.</td>
+                                <td colspan="6" class="p-4 text-center text-gray-600">Nenhuma operação registrada.</td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -3,33 +3,36 @@
 {% block content %}
 <div class="max-w-7xl mx-auto space-y-12">
     <!-- Hero Section -->
-    <section class="text-center py-12 bg-gray-900 border-b border-gray-800">
-        <h1 class="text-2xl font-medium text-blue-400 mb-4">Pesquise Ativos</h1>
-        <p class="text-gray-400 mb-6">Acesse cotações, fundamentos e gráficos em tempo real.</p>
+    <section class="text-center py-12 bg-white rounded-lg shadow-sm">
+        <h1 class="text-2xl font-semibold text-blue-900 mb-4">Pesquise Ativos</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-6">Acesse cotações, fundamentos e gráficos em tempo real.</p>
         <div class="max-w-xl mx-auto">
-            <div class="flex items-center bg-gray-800 rounded-md p-1">
-                <input type="text" placeholder="Digite o nome do ativo" class="w-full p-2 bg-transparent text-gray-200 focus:outline-none">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">Pesquisar</button>
+            <div class="flex items-center bg-gray-100 rounded-md p-1 shadow-sm">
+                <svg class="w-5 h-5 text-gray-600 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" placeholder="Digite o nome do ativo" class="w-full p-3 bg-transparent text-gray-900 focus:outline-none">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Pesquisar</button>
             </div>
         </div>
-        <div class="mt-4 flex justify-center space-x-3 text-sm text-gray-400">
+        <div class="mt-6 flex justify-center space-x-3 text-sm text-gray-600">
             <span>Mais buscados:</span>
-            <a href="#" class="hover:text-blue-400">Itausa</a>
-            <a href="#" class="hover:text-blue-400">TAESA</a>
-            <a href="#" class="hover:text-blue-400">Tesla</a>
-            <a href="#" class="hover:text-blue-400">Apple</a>
-            <a href="#" class="hover:text-blue-400">Bitcoin</a>
+            <a href="#" class="text-blue-600 hover:underline">Itausa</a>
+            <a href="#" class="text-blue-600 hover:underline">TAESA</a>
+            <a href="#" class="text-blue-600 hover:underline">Tesla</a>
+            <a href="#" class="text-blue-600 hover:underline">Apple</a>
+            <a href="#" class="text-blue-600 hover:underline">Bitcoin</a>
         </div>
     </section>
 
     <!-- Rankings Section -->
     <section class="space-y-6">
-        <h2 class="text-xl font-medium text-blue-400">Rankings de Ações</h2>
+        <h2 class="text-xl font-semibold text-blue-900">Rankings de Ações</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Maiores Valor de Mercado -->
-            <div class="bg-gray-900 p-4">
-                <h3 class="text-lg font-medium text-gray-200 mb-3">Maiores Valor de Mercado</h3>
-                <ul class="space-y-2 text-gray-200 text-sm">
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Maiores Valor de Mercado</h3>
+                <ul class="space-y-3 text-gray-900 text-sm">
                     <li class="flex justify-between">
                         <span>PETR4 - PETROBRAS</span>
                         <span>R$ 408,16 B</span>
@@ -54,9 +57,9 @@
             </div>
 
             <!-- Maiores Dividend Yield -->
-            <div class="bg-gray-900 p-4">
-                <h3 class="text-lg font-medium text-gray-200 mb-3">Maiores Dividend Yield</h3>
-                <ul class="space-y-2 text-gray-200 text-sm">
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Maiores Dividend Yield</h3>
+                <ul class="space-y-3 text-gray-900 text-sm">
                     <li class="flex justify-between">
                         <span>SYNE3 - MELK</span>
                         <span>48,46%</span>
@@ -81,9 +84,9 @@
             </div>
 
             <!-- Maiores Receitas -->
-            <div class="bg-gray-900 p-4">
-                <h3 class="text-lg font-medium text-gray-200 mb-3">Maiores Receitas</h3>
-                <ul class="space-y-2 text-gray-200 text-sm">
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Maiores Receitas</h3>
+                <ul class="space-y-3 text-gray-900 text-sm">
                     <li class="flex justify-between">
                         <span>PETR4 - PETROBRAS</span>
                         <span>R$ 490,83 B</span>

@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const portfolioCanvas = document.getElementById('portfolioChart');
     if (portfolioCanvas) {
         try {
+            const loadingSpinner = portfolioCanvas.parentElement.querySelector('.chart-loading');
+            if (loadingSpinner) loadingSpinner.classList.remove('hidden'); // Show spinner
+            portfolioCanvas.classList.add('opacity-50'); // Add loading state
             const operations = JSON.parse(portfolioCanvas.dataset.operations || '[]');
 
             const portfolio = {};
@@ -48,14 +51,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         datasets: [{
                             data: values,
                             backgroundColor: [
-                                '#10B981', 
-                                '#3B82F6', 
-                                '#EF4444', 
-                                '#F59E0B',
-                                '#8B5CF6', 
-                                '#EC4899', 
+                                '#1E3A8A', // Deep Navy
+                                '#3B82F6', // Bright Blue
+                                '#10B981', // Emerald Green
+                                '#F59E0B', // Amber
+                                '#EF4444', // Red
+                                '#8B5CF6', // Purple
                             ],
-                            borderColor: '#1F2937', 
+                            borderColor: '#FFFFFF',
                             borderWidth: 1
                         }]
                     },
@@ -66,10 +69,17 @@ document.addEventListener('DOMContentLoaded', function () {
                             legend: {
                                 position: 'top',
                                 labels: {
-                                    color: '#D1D5DB' 
+                                    color: '#1F2937',
+                                    font: {
+                                        size: 14,
+                                        weight: '500'
+                                    }
                                 }
                             },
                             tooltip: {
+                                backgroundColor: '#111827',
+                                titleColor: '#FFFFFF',
+                                bodyColor: '#D1D5DB',
                                 callbacks: {
                                     label: function (context) {
                                         let label = context.label || '';
@@ -81,15 +91,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 });
+                portfolioCanvas.classList.remove('opacity-50'); // Remove loading state
+                if (loadingSpinner) loadingSpinner.classList.add('hidden'); // Hide spinner
             }
         } catch (error) {
             console.error('Erro ao renderizar o gráfico de portfólio:', error);
+            portfolioCanvas.classList.remove('opacity-50');
+            if (loadingSpinner) loadingSpinner.classList.add('hidden');
         }
     }
 
     const sectorCanvas = document.getElementById('sectorChart');
     if (sectorCanvas) {
         try {
+            const loadingSpinner = sectorCanvas.parentElement.querySelector('.chart-loading');
+            if (loadingSpinner) loadingSpinner.classList.remove('hidden'); // Show spinner
+            sectorCanvas.classList.add('opacity-50'); // Add loading state
             const sectors = JSON.parse(sectorCanvas.dataset.sectors || '{}');
 
             const labels = [];
@@ -110,14 +127,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         datasets: [{
                             data: values,
                             backgroundColor: [
-                                '#10B981', 
-                                '#3B82F6', 
-                                '#EF4444', 
+                                '#1E3A8A',
+                                '#3B82F6',
+                                '#10B981',
                                 '#F59E0B',
-                                '#8B5CF6', 
-                                '#EC4899', 
+                                '#EF4444',
+                                '#8B5CF6',
                             ],
-                            borderColor: '#1F2937', 
+                            borderColor: '#FFFFFF',
                             borderWidth: 1
                         }]
                     },
@@ -128,10 +145,17 @@ document.addEventListener('DOMContentLoaded', function () {
                             legend: {
                                 position: 'top',
                                 labels: {
-                                    color: '#D1D5DB' 
+                                    color: '#1F2937',
+                                    font: {
+                                        size: 14,
+                                        weight: '500'
+                                    }
                                 }
                             },
                             tooltip: {
+                                backgroundColor: '#111827',
+                                titleColor: '#FFFFFF',
+                                bodyColor: '#D1D5DB',
                                 callbacks: {
                                     label: function (context) {
                                         let label = context.label || '';
@@ -143,9 +167,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 });
+                sectorCanvas.classList.remove('opacity-50'); // Remove loading state
+                if (loadingSpinner) loadingSpinner.classList.add('hidden'); // Hide spinner
             }
         } catch (error) {
             console.error('Erro ao renderizar o gráfico de setores:', error);
+            sectorCanvas.classList.remove('opacity-50');
+            if (loadingSpinner) loadingSpinner.classList.add('hidden');
         }
     }
 });
