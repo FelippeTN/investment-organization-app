@@ -5,6 +5,7 @@ class Asset(models.Model):
     name = models.CharField(max_length=255)
     ticker = models.CharField(max_length=20, unique=True)
     type = models.CharField(max_length=50, blank=True, null=True)  # Ex.: Ação, FII
+    sector = models.CharField(max_length=100, blank=True, null=True)  # Sector from brapi
     current_price = models.FloatField(default=0.0)
     pl = models.FloatField(blank=True, null=True)  # P/L
     pvp = models.FloatField(blank=True, null=True)  # P/VP
