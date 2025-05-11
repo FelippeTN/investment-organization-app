@@ -28,18 +28,14 @@ def home_page(request):
 
 @login_required
 def dashboard(request):
-    # Fetch all global assets
     assets = Asset.objects.all()
     
-    # Fetch operations for the current user
     operations = Operation.objects.filter(user=request.user).order_by('-date')
     
-    # Compute portfolio: aggregate quantity and total value per asset for the user
     portfolio = {}
     portfolio_total = 0
     
     for asset in assets:
-        # Calculate net quantity (compras - vendas) for the user
         qty = Operation.objects.filter(asset=asset, user=request.user).aggregate(
             net_quantity=Sum(
                 Case(
@@ -50,16 +46,28 @@ def dashboard(request):
             )
         )['net_quantity'] or 0
         
-        # Calculate total value (using latest unitary price for simplicity)
-        latest_op = Operation.objects.filter(asset=asset, user=request.user).order_by('-date').first()
-        total_value = qty * float(latest_op.unitary_price) if latest_op and qty > 0 else 0
+        total_cost = 0
+        if qty > 0:
+            operations_for_asset = Operation.objects.filter(asset=asset, user=request.user)
+            for op in operations_for_asset:
+                quantity = float(op.quantity)
+                unitary_price = float(op.unitary_price)
+                if op.type.lower() == 'compra':
+                    total_cost += quantity * unitary_price
+                elif op.type.lower() == 'venda':
+                    total_cost -= quantity * unitary_price
         
-        if qty > 0:  # Only include assets with positive quantity
+        total_value = (total_cost / qty) * qty if qty > 0 else 0
+        
+        current_price = float(asset.current_price) if asset.current_price else 0
+        
+        if qty > 0: 
             portfolio[asset.ticker] = {
                 'quantity': qty,
-                'total_value': total_value
+                'total_value': total_value, 
+                'current_price': current_price  
             }
-            portfolio_total += total_value
+            portfolio_total += qty * current_price
     
     return render(request, 'dashboard.html', {
         'operations': operations,
@@ -67,7 +75,6 @@ def dashboard(request):
         'portfolio_total': portfolio_total,
         'assets': assets
     })
-
 
 @login_required
 def operation_create(request):
