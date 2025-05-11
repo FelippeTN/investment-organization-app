@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const canvas = document.getElementById('portfolioChart');
-    if (canvas) {
+    const portfolioCanvas = document.getElementById('portfolioChart');
+    if (portfolioCanvas) {
         try {
-            const operations = JSON.parse(canvas.dataset.operations || '[]');
+            const operations = JSON.parse(portfolioCanvas.dataset.operations || '[]');
 
-            // Calcular composição da carteira
             const portfolio = {};
             operations.forEach(op => {
                 const ticker = op.ticker;
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     portfolio[ticker] = { quantity: 0, totalValue: 0, totalCost: 0 };
                 }
 
-                // Ajustar quantidade (compra aumenta, venda diminui)
                 if (type === 'compra') {
                     portfolio[ticker].quantity += quantity;
                     portfolio[ticker].totalCost += quantity * unitaryPrice;
@@ -25,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     portfolio[ticker].totalCost -= quantity * unitaryPrice;
                 }
 
-                // Calcular preço médio (se houver quantidade)
                 if (portfolio[ticker].quantity > 0) {
                     portfolio[ticker].totalValue = portfolio[ticker].quantity * (portfolio[ticker].totalCost / portfolio[ticker].quantity);
                 } else {
@@ -33,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Preparar dados para o gráfico
             const labels = [];
             const values = [];
             for (const ticker in portfolio) {
@@ -44,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (labels.length > 0 && values.length > 0) {
-                const ctx = canvas.getContext('2d');
+                const ctx = portfolioCanvas.getContext('2d');
                 new Chart(ctx, {
                     type: 'pie',
                     data: {
@@ -70,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             legend: {
                                 position: 'top',
                                 labels: {
-                                    color: '#D1D5DB' // gray-300
+                                    color: '#D1D5DB' 
                                 }
                             },
                             tooltip: {
@@ -87,7 +83,69 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         } catch (error) {
-            console.error('Erro ao renderizar o gráfico:', error);
+            console.error('Erro ao renderizar o gráfico de portfólio:', error);
+        }
+    }
+
+    const sectorCanvas = document.getElementById('sectorChart');
+    if (sectorCanvas) {
+        try {
+            const sectors = JSON.parse(sectorCanvas.dataset.sectors || '{}');
+
+            const labels = [];
+            const values = [];
+            for (const sector in sectors) {
+                if (sectors[sector] > 0) {
+                    labels.push(sector);
+                    values.push(sectors[sector]);
+                }
+            }
+
+            if (labels.length > 0 && values.length > 0) {
+                const ctx = sectorCanvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: [
+                                '#10B981', 
+                                '#3B82F6', 
+                                '#EF4444', 
+                                '#F59E0B',
+                                '#8B5CF6', 
+                                '#EC4899', 
+                            ],
+                            borderColor: '#1F2937', 
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    color: '#D1D5DB' 
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        let label = context.label || '';
+                                        let value = context.raw || 0;
+                                        return `${label}: R$ ${value.toFixed(2)}`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao renderizar o gráfico de setores:', error);
         }
     }
 });

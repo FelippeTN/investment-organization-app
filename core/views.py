@@ -5,6 +5,7 @@ from .models import Operation, Asset
 from .forms import OperationForm
 from django.db.models import Sum, F, Case, When, Value, IntegerField, DecimalField
 from django.urls import reverse
+import json 
 
 
 def register(request):
@@ -34,6 +35,7 @@ def dashboard(request):
     
     portfolio = {}
     portfolio_total = 0
+    sector_totals = {}  
     
     for asset in assets:
         qty = Operation.objects.filter(asset=asset, user=request.user).aggregate(
@@ -65,15 +67,24 @@ def dashboard(request):
             portfolio[asset.ticker] = {
                 'quantity': qty,
                 'total_value': total_value, 
-                'current_price': current_price  
+                'current_price': current_price,
+                'sector': asset.sector or 'Desconhecido'  
             }
             portfolio_total += qty * current_price
+            sector = asset.sector or 'Desconhecido'
+            if sector not in sector_totals:
+                sector_totals[sector] = 0
+            sector_totals[sector] += qty * current_price
+    
+    sector_totals_json = json.dumps(sector_totals)
     
     return render(request, 'dashboard.html', {
         'operations': operations,
         'portfolio': portfolio,
         'portfolio_total': portfolio_total,
-        'assets': assets
+        'assets': assets,
+        'sector_totals': sector_totals,
+        'sector_totals_json': sector_totals_json  
     })
 
 @login_required

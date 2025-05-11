@@ -72,6 +72,18 @@
             {% endif %}
         </div>
 
+        <!-- Sector Composition Chart -->
+        <div class="bg-gray-900 p-4">
+            <h2 class="text-lg font-medium text-blue-400 mb-3">Distribuição por Setor</h2>
+            {% if sector_totals %}
+                <div class="h-64">
+                    <canvas id="sectorChart" data-sectors='{{ sector_totals_json|safe }}'></canvas>
+                </div>
+            {% else %}
+                <p class="text-gray-400 text-center">Nenhuma informação de setor disponível.</p>
+            {% endif %}
+        </div>
+
         <!-- Operations -->
         <div class="bg-gray-900 p-4">
             <div class="flex justify-between items-center mb-3">
