@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}AI Chat{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-sm animate-fade-in">
+    <h1 class="text-2xl font-semibold text-blue-900 mb-6">Converse com a IA</h1>
+    <div id="chat-container" class="border border-gray-200 rounded-md p-4 h-96 overflow-y-auto mb-4 bg-gray-50">
+        <div id="chat-messages"></div>
+    </div>
+    <div class="flex space-x-2">
+        <input type="text" id="chat-input" class="flex-1" placeholder="Digite sua mensagem..." />
+        <button id="send-button" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Enviar</button>
+    </div>
+</div>
+{% endblock %}

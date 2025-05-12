@@ -1,11 +1,16 @@
 import requests
 import os
 from dotenv import load_dotenv
+from rich import print
 
 load_dotenv()
 
 BRAPI_TOKEN = os.getenv("BRAPI_TOKEN")
 
-response = requests.get(f"https://brapi.dev/api/quote/BBAS3.SA?token={BRAPI_TOKEN}")
+response = requests.get(f"https://brapi.dev/api/quote/list?token={BRAPI_TOKEN}")
 
-print(response.text)
+data = response.json()
+
+tickers_data = data.get('stocks')
+
+print(tickers_data)

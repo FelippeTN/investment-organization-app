@@ -100,3 +100,7 @@ def operation_create(request):
     else:
         form = OperationForm()
     return render(request, 'operations/operation_form.html', {'form': form})
+
+@login_required
+def ai_consult(request):
+    return render(request, 'ai_chat.html')

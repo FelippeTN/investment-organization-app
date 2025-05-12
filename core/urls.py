@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import path
 from .views import *
-from .api.api_views import AssetPriceListView, AssetPriceUpdateView, AssetTickerCreateView, AssetSectorUpdateView
+from .api.api_views import *
 from django.contrib.auth import views as auth_views
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -25,6 +25,9 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='registration/logged_out.html'), name='logout'),
     path('register/', register, name='register'),
     path('operacoes/novo/', operation_create, name='operation_create'),
+    path('ai_chat/', ai_consult, name='ai_consult'),
+    
+    #path('api/ai_response', AIAgentRequest.as_view(), name='ai_agent'),
     path('api/assets/prices/', AssetPriceListView.as_view(), name='asset_price_list'),
     path('api/assets/prices/update/', AssetPriceUpdateView.as_view(), name='asset_price_update'),
     path('api/assets/tickers/update/', AssetTickerCreateView.as_view(), name='asset_ticker_update'),

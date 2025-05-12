@@ -177,3 +177,65 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+
+    function addMessage(content, isUser) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `p-2 my-2 rounded-md ${
+            isUser ? 'bg-blue-100 text-blue-900 ml-auto' : 'bg-gray-200 text-gray-900 mr-auto'
+        } max-w-[80%]`;
+        messageDiv.textContent = content;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        addMessage(message, true);
+        chatInput.value = '';
+
+        chatInput.disabled = true;
+        sendButton.disabled = true;
+
+        try {
+            const response = await fetch('http://localhost:8080/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    model: 'llama',
+                    messages: [
+                        { role: 'user', content: message }
+                    ],
+                    max_tokens: 500,
+                    temperature: 0.7
+                })
+            });
+
+            if (!response.ok) throw new Error('Erro na resposta do servidor');
+
+            const data = await response.json();
+            const aiMessage = data.choices[0].message.content;
+            addMessage(aiMessage, false);
+        } catch (error) {
+            console.error('Erro ao enviar mensagem:', error);
+            addMessage('Desculpe, ocorreu um erro ao processar sua mensagem.', false);
+        } finally {
+            chatInput.disabled = false;
+            sendButton.disabled = false;
+            chatInput.focus();
+        }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+});
