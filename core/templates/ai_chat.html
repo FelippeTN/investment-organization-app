@@ -1,31 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}AI Chat{% endblock %}
 {% block content %}
-<div class="flex flex-col h-[calc(100vh-120px)] bg-gradient-to-br from-gray-50 to-blue-100">
+<div class="flex flex-col h-[calc(100vh-120px)]">
     <!-- Chat Messages -->
     <div id="chat-container" class="flex-1 min-h-0 overflow-y-auto">
-        <div id="chat-messages" class="space-y-4 max-w-3xl mx-auto"></div>
+        <div id="chat-messages" class="space-y-4 max-w-2xl mx-auto w-full"></div> <!-- Alterado de max-w-3xl para max-w-2xl -->
     </div>
     <!-- Input Area -->
-    <div id="input-container" class="sticky bottom-0 bg-white/80 backdrop-blur-md p-4 border-t border-gray-200">
-        <div class="max-w-3xl mx-auto">
-            <div class="relative">
-                <input 
-                    type="text" 
-                    id="chat-input" 
-                    class="w-full p-4 pr-12 border border-gray-300 rounded-full focus:outline-none focus:border-blue-500 transition bg-white/90 text-gray-900 placeholder-gray-500"
-                    placeholder="Ask me anything..."
-                />
-                <button 
-                    id="send-button" 
-                    class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition disabled:opacity-50"
-                    aria-label="Send message"
-                >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                    </svg>
-                </button>
-            </div>
+    <div id="input-area" class="sticky bottom-0 bg-white/80 backdrop-blur-md p-3 border border-gray-300 rounded-2xl shadow-lg max-w-2xl mx-auto w-full">
+        <div class="flex items-center w-full gap-2">
+            <textarea 
+                id="chat-input" 
+                class="flex-1 p-3 bg-transparent text-gray-900 placeholder-gray-500 border-0 focus:outline-none focus:ring-0 resize-none"
+                placeholder="Escreva aqui seu pedido..."
+                aria-label="Escreva aqui seu pedido..."
+            ></textarea>
+            <button 
+                id="send-button" 
+                class="bg-green-500 text-white rounded-full p-2 w-10 h-10 flex items-center justify-center hover:bg-green-600 transition disabled:opacity-50"
+                aria-label="Send message"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v- SCROLLBAR_WIDTH"></path>
+                </svg>
+            </button>
         </div>
     </div>
 </div>
