@@ -147,3 +147,28 @@ a.text-blue-600:hover {
     color: #2563EB;
     text-decoration: underline;
 }
+
+#chat-messages .user-message {
+    background: linear-gradient(to right, #3B82F6, #1E3A8A);
+    color: white;
+    border-radius: 1rem 1rem 0 1rem;
+    padding: 1rem;
+    max-width: 70%;
+    margin-left: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#chat-messages .ai-message {
+    background: #FFFFFF;
+    color: #1F2937;
+    border-radius: 1rem 1rem 1rem 0;
+    padding: 1rem;
+    max-width: 70%;
+    margin-right: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#chat-container {
+    scrollbar-width: thin;
+    scrollbar-color: #6B7280 #F9FAFB;
+}
