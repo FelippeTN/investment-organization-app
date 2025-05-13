@@ -20,6 +20,12 @@ SLEEP_TIME = 1.0
 MAX_RETRIES = 3
 RETRY_WAIT = 10.0
 
+class AIAgentRequest(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        return None
+
 class AssetPriceListView(APIView):
     permission_classes = [IsAuthenticated]
 

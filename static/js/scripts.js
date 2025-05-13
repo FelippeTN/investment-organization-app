@@ -180,31 +180,55 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     const chatMessages = document.getElementById('chat-messages');
-    const chatInput = document.getElementById('chat-input');
-    const sendButton = document.getElementById('send-button');
+    const welcomeChatInput = document.getElementById('chat-input'); // Initial input in welcome-container
+    const welcomeSendButton = document.getElementById('send-button'); // Initial button in welcome-container
+    const chatContainer = document.getElementById('chat-container');
+    const welcomeContainer = document.getElementById('welcome-container');
+    const inputContainer = document.getElementById('input-container');
+    let isFirstMessage = true;
+
+    // After first message, switch to the input-container's input and button
+    const chatInput = inputContainer.querySelector('#chat-input');
+    const sendButton = inputContainer.querySelector('#send-button');
 
     function addMessage(content, isUser) {
         const messageDiv = document.createElement('div');
-        messageDiv.className = `p-2 my-2 rounded-md ${
-            isUser ? 'bg-blue-100 text-blue-900 ml-auto' : 'bg-gray-200 text-gray-900 mr-auto'
-        } max-w-[80%]`;
+        messageDiv.className = `p-3 rounded-lg max-w-[80%] ${
+            isUser ? 'bg-blue-100 text-blue-900 ml-auto' : 'bg-gray-100 text-gray-900 mr-auto'
+        }`;
         messageDiv.textContent = content;
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    async function sendMessage() {
-        const message = chatInput.value.trim();
+    async function sendMessage(inputElement) {
+        const message = inputElement.value.trim();
         if (!message) return;
 
-        addMessage(message, true);
-        chatInput.value = '';
+        // On first message, transition to chat view
+        if (isFirstMessage) {
+            welcomeContainer.classList.add('hidden');
+            chatContainer.classList.remove('hidden');
+            inputContainer.classList.remove('hidden');
+            isFirstMessage = false;
 
-        chatInput.disabled = true;
-        sendButton.disabled = true;
+            // Disable welcome input and button to prevent further use
+            welcomeChatInput.disabled = true;
+            welcomeSendButton.disabled = true;
+        }
+
+        // Add user message
+        addMessage(message, true);
+        inputElement.value = '';
+
+        // Disable input and button while waiting for response
+        const currentInput = isFirstMessage ? welcomeChatInput : chatInput;
+        const currentButton = isFirstMessage ? welcomeSendButton : sendButton;
+        currentInput.disabled = true;
+        currentButton.disabled = true;
 
         try {
-            const response = await fetch('http://localhost:8080/v1/chat/completions', {
+            const response = await fetch('http://26.159.78.241:8080/v1/chat/completions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -228,14 +252,21 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Erro ao enviar mensagem:', error);
             addMessage('Desculpe, ocorreu um erro ao processar sua mensagem.', false);
         } finally {
-            chatInput.disabled = false;
-            sendButton.disabled = false;
-            chatInput.focus();
+            currentInput.disabled = false;
+            currentButton.disabled = false;
+            currentInput.focus();
         }
     }
 
-    sendButton.addEventListener('click', sendMessage);
+    // Event listeners for welcome input and button
+    welcomeSendButton.addEventListener('click', () => sendMessage(welcomeChatInput));
+    welcomeChatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage(welcomeChatInput);
+    });
+
+    // Event listeners for chat input and button (used after first message)
+    sendButton.addEventListener('click', () => sendMessage(chatInput));
     chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendMessage();
+        if (e.key === 'Enter') sendMessage(chatInput);
     });
 });
