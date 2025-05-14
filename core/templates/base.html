@@ -16,11 +16,11 @@
     {% block topbar %}
         <header class="bg-white border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                <a href="/" class="text-xl font-semibold text-blue-900">LogicAi Solutions</a>
+                <a href="/" class="text-xl font-semibold text-blue-900">LogicAi Investimentos</a>
                 <nav class="flex items-center space-x-6 text-sm">
                     {% if user.is_authenticated %}
                         <a href="{% url 'dashboard' %}" class="text-gray-600 hover:text-blue-600 transition">Dashboard</a>
-                        <a href="{% url 'ai_consult' %}" class="text-gray-600 hover:text-blue-600 transition">AI Chat</a>
+                        <a href="{% url 'ai_consult' %}" class="text-gray-600 hover:text-blue-600 transition">Consultor AI</a>
                         <span class="text-gray-600">{{ user.username }}</span>
                         <form action="{% url 'logout' %}" method="post" class="inline">
                             {% csrf_token %}
@@ -42,7 +42,7 @@
 
     <!-- Footer -->
     <footer class="bg-white text-center text-sm text-gray-500 py-4 border-t border-gray-200">
-        © {% now "Y" %} LogicAi Solutions. Todos os direitos reservados.
+        © {% now "Y" %} LogicAi Investimentos. Todos os direitos reservados.
     </footer>
 </body>
 </html>
