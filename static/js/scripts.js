@@ -209,18 +209,55 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify({
                     model: 'llama',
                     messages: [
+                        { role: 'system', content: 'Você é um analista profissional do mercado financeiro e que tira duvida dos usuarios com base nas informações de suas carteiras de investimentos.' },
                         { role: 'user', content: message }
                     ],
                     max_tokens: 500,
-                    temperature: 0.7
+                    temperature: 0.7,
+                    stream: true
                 })
             });
 
             if (!response.ok) throw new Error('Erro na resposta do servidor');
 
-            const data = await response.json();
-            const aiMessage = data.choices[0].message.content;
-            addMessage(aiMessage, false);
+            const aiMessageDiv = document.createElement('div');
+            aiMessageDiv.className = 'ai-message animate-fade-in';
+            chatMessages.appendChild(aiMessageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let aiMessage = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value);
+                const lines = chunk.split('\n').filter(line => line.trim().startsWith('data: '));
+
+                for (const line of lines) {
+                    const jsonData = line.replace('data: ', '').trim();
+                    if (jsonData === '[DONE]') continue;
+
+                    try {
+                        const parsed = JSON.parse(jsonData);
+                        const content = parsed.choices[0].delta.content;
+                        if (content) {
+                            aiMessage += content;
+                            aiMessageDiv.textContent = aiMessage;
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                            await new Promise(resolve => setTimeout(resolve, 10));
+                        }
+                    } catch (e) {
+                        console.warn('Erro ao parsear chunk:', e);
+                    }
+                }
+            }
+
+            if (!aiMessage) {
+                aiMessageDiv.textContent = 'Nenhuma resposta recebida.';
+            }
         } catch (error) {
             console.error('Erro ao enviar mensagem:', error);
             addMessage('Desculpe, ocorreu um erro ao processar sua mensagem.', false);
@@ -236,6 +273,5 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'Enter') sendMessage();
     });
 
-    // Add welcome message from AI
     addMessage('Bem-vindo ao AI Chat! Como posso ajudar você hoje?', false);
 });
